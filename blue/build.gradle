@@ -1,0 +1,70 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'com.android.library'
+
+android {
+    signingConfigs {
+
+//        configs {
+//            keyAlias APP_KEY_ALIAS
+//            keyPassword APP_KEY_PASSWORD
+//            storePassword APP_STORE_PASSWORD
+//
+//            def userName = System.getProperty("user.name")//根据 os 账户信息动态生成keystore 保存路径
+//            def keystore_path = Os.isFamily(Os.FAMILY_WINDOWS) ? WINDOWS_RELEASE_STORE_FILE : LINUX_RELEASE_STORE_FILE
+//            keystore_path = keystore_path.replace("{user_name}", userName)
+//
+//            storeFile file(keystore_path)
+//        }
+    }
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionName rootProject.ext.libVersionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //signingConfig signingConfigs.configs
+    }
+    buildTypes {
+        debug {
+            debuggable rootProject.ext.debuggable
+            jniDebuggable rootProject.ext.jniDebuggable
+            minifyEnabled rootProject.ext.minifyEnabled
+            pseudoLocalesEnabled rootProject.ext.pseudoLocalesEnabled
+            zipAlignEnabled rootProject.ext.zipAlignEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+          //  signingConfig signingConfigs.configs
+        }
+
+        release {
+            debuggable rootProject.ext.debuggable
+            jniDebuggable rootProject.ext.jniDebuggable
+            minifyEnabled rootProject.ext.minifyEnabled
+            pseudoLocalesEnabled rootProject.ext.pseudoLocalesEnabled
+            zipAlignEnabled rootProject.ext.zipAlignEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //signingConfig signingConfigs.configs
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    productFlavors {
+    }
+
+    lintOptions {
+        abortOnError rootProject.ext.abortOnError
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}
